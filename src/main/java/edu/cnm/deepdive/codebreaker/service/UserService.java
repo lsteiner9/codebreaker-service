@@ -5,6 +5,8 @@ import edu.cnm.deepdive.codebreaker.model.entity.User;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Optional;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -43,5 +45,9 @@ public class UserService implements Converter<Jwt, UsernamePasswordAuthenticatio
         Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
     return new UsernamePasswordAuthenticationToken(
         getOrCreate(jwt.getSubject(), jwt.getClaim("name")), jwt.getTokenValue(), grants);
+  }
+
+  public Optional<User> getUser(UUID id) {
+    return repository.findById(id);
   }
 }
